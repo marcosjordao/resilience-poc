@@ -1,0 +1,6 @@
+ibge:
+  location:
+    url: "https://servicodados.ibge.gov.br/api/v1/localidades"
+    connectionWriteTimeout: 6000
+    connectionReadTimeout: 30000
+    connectTimeout: 6000
