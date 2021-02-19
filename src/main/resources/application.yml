@@ -4,3 +4,5 @@ ibge:
     connectTimeout: 6000
     connectionWriteTimeout: 6000
     connectionReadTimeout: 30000
+    retryMaxAttempts: 3
+    retryWaitDuration: 500

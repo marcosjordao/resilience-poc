@@ -1,5 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val springCloudVersion: String by ext
+val kotlinLoggingVersion: String by ext
+val resilience4jVersion: String by ext
+
 plugins {
 	id("org.springframework.boot") version "2.4.2"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
@@ -15,8 +19,6 @@ repositories {
 	mavenCentral()
 }
 
-extra["springCloudVersion"] = "2020.0.1"
-
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
@@ -25,19 +27,22 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-	implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
-	implementation("io.github.microutils:kotlin-logging:1.12.0")
+	implementation("io.github.microutils:kotlin-logging:$kotlinLoggingVersion")
+
+	implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
+	implementation("io.github.resilience4j:resilience4j-kotlin:$resilience4jVersion")
+	implementation("io.github.resilience4j:resilience4j-retry:$resilience4jVersion")
+
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 
-	compile("io.github.resilience4j:resilience4j-kotlin:1.7.0")
 }
 
 dependencyManagement {
 	imports {
-		mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+		mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
 	}
 }
 
