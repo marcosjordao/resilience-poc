@@ -22,10 +22,12 @@ class IbgeLocationGateway(
     override suspend fun getStates(): List<LocationStateResponse> {
         log.info { "Getting states" }
 
-        val circuitBreaker = CircuitBreaker.ofDefaults("ibgeLocationState")
-        val states = circuitBreaker.executeSuspendFunction {
-            client.getStates()
-        }
+//        val circuitBreaker = CircuitBreaker.ofDefaults("ibgeLocationState")
+//        val states = circuitBreaker.executeSuspendFunction {
+//            client.getStates()
+//        }
+
+        val states = client.getStates()
         return states.map(mapper::toLocationStateResponse)
     }
 }
