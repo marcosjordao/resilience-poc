@@ -1,12 +1,10 @@
 package com.marcosjordao.resiliencepoc.webservice.location
 
+import com.marcosjordao.resiliencepoc.api.location.request.LocationCityRequest
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
-import org.springframework.web.reactive.function.server.ServerRequest
-import org.springframework.web.reactive.function.server.ServerResponse
-import org.springframework.web.reactive.function.server.bodyValueAndAwait
-import org.springframework.web.reactive.function.server.buildAndAwait
+import org.springframework.web.reactive.function.server.*
 
 @Component
 class LocationHandler(
@@ -23,6 +21,19 @@ class LocationHandler(
         return try {
             val states = service.getStates()
             ServerResponse.ok().bodyValueAndAwait(states)
+        } catch (ex: Exception) {
+            ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).buildAndAwait()
+        }
+    }
+
+    suspend fun getCities(request: ServerRequest): ServerResponse {
+        log.info { "Getting cities" }
+
+        return try {
+            val cityRequest = LocationCityRequest(request.pathVariable("id"))
+
+            val cities = service.getCities(cityRequest)
+            ServerResponse.ok().bodyValueAndAwait(cities)
         } catch (ex: Exception) {
             ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).buildAndAwait()
         }

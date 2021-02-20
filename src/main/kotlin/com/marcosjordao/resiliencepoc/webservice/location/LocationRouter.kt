@@ -9,10 +9,11 @@ import org.springframework.web.reactive.function.server.coRouter
 class LocationRouter {
 
     @Bean
-    fun stateRoute(handler: LocationHandler) = coRouter {
+    fun locationRoute(handler: LocationHandler) = coRouter {
         accept(MediaType.APPLICATION_JSON).nest {
             "/api/v1/location/states".nest {
                 GET("", handler::getStates)
+                GET("/{id}/cities", handler::getCities)
             }
         }
     }

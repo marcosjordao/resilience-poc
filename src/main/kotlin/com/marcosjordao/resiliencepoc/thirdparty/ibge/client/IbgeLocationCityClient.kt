@@ -1,43 +1,36 @@
 package com.marcosjordao.resiliencepoc.thirdparty.ibge.client
 
 import com.marcosjordao.resiliencepoc.common.objectmapper.DefaultObjectMapper
-import com.marcosjordao.resiliencepoc.common.resilience.RetryFactory
-import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.response.IbgeLocationStateResponse
+import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.request.IbgeLocationCityRequest
+import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.response.IbgeLocationCityResponse
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.config.IbgeLocationHttpClientConfiguration
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.exception.IbgeLocationException
-import io.github.resilience4j.kotlin.retry.executeSuspendFunction
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.awaitBody
 
 @Component
-class IbgeLocationStateClient(
-    config: IbgeLocationHttpClientConfiguration,
-    retryFactory: RetryFactory
+class IbgeLocationCityClient(
+    config: IbgeLocationHttpClientConfiguration
 ) {
-
     companion object {
         private val log = KotlinLogging.logger { IbgeLocationStateClient::class.java }
-        const val API_URI = "/estados"
     }
 
     private val webClient = config.buildClient(DefaultObjectMapper.get())
-    private val retry = retryFactory.buildRetry("stateClientRetry")
 
-    suspend fun getStates(): List<IbgeLocationStateResponse> {
-        log.info { "Getting states on IBGE API" }
+    suspend fun getCities(request: IbgeLocationCityRequest): List<IbgeLocationCityResponse> {
+        log.info { "Getting cities on IBGE API from state [id=${request.stateId}]" }
+
+        val uri = "/estados/${request.stateId}/municipios"
 
         val client = webClient.get()
-            .uri(API_URI)
+            .uri(uri)
 
         return try {
-
-            retry.executeSuspendFunction {
-                client.retrieve().awaitBody()
-            }
-
+            client.retrieve().awaitBody()
         } catch (e: Exception) {
-            log.error(e) { "Unexpected error trying to get states" }
+            log.error(e) { "Unexpected error trying to get cities" }
             throw IbgeLocationException("Unexpected error", e)
         }
     }
