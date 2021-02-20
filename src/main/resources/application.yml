@@ -1,9 +1,12 @@
 ibge:
   location:
-#    url: "https://servicodados.ibge.gov.br/api/v1/localidades"
+    #    url: "https://servicodados.ibge.gov.br/api/v1/localidades"
     url: "https://jordao-test.free.beeceptor.com/api/v1/localidades"
     connectTimeout: 6000
     connectionWriteTimeout: 6000
     connectionReadTimeout: 30000
-    retryMaxAttempts: 3
-    retryWaitDuration: 500
+
+resilience:
+  retry:
+    maxAttempts: 3
+    waitDuration: 500
