@@ -4,8 +4,6 @@ import com.marcosjordao.resiliencepoc.api.location.response.LocationStateRespons
 import com.marcosjordao.resiliencepoc.business.ibge.gateway.LocationGateway
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.mapper.IbgeLocationStateResponseMapper
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.client.IbgeLocationClient
-import io.github.resilience4j.circuitbreaker.CircuitBreaker
-import io.github.resilience4j.kotlin.circuitbreaker.executeSuspendFunction
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
 
@@ -21,11 +19,6 @@ class IbgeLocationGateway(
 
     override suspend fun getStates(): List<LocationStateResponse> {
         log.info { "Getting states" }
-
-//        val circuitBreaker = CircuitBreaker.ofDefaults("ibgeLocationState")
-//        val states = circuitBreaker.executeSuspendFunction {
-//            client.getStates()
-//        }
 
         val states = client.getStates()
         return states.map(mapper::toLocationStateResponse)

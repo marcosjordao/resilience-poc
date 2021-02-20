@@ -32,8 +32,8 @@ class IbgeLocationClient(
         return try {
 
             retry.executeSuspendFunction {
-                client.retrieve()
-            }.awaitBody()
+                client.retrieve().awaitBody()
+            }
 
         } catch (e: Exception) {
             log.error(e) { "Unexpected error trying to get states" }
