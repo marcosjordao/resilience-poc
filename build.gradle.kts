@@ -30,7 +30,7 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 	implementation("io.github.microutils:kotlin-logging:$kotlinLoggingVersion")
 
-	implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
+	implementation("io.github.resilience4j:resilience4j-core:$resilience4jVersion")
 	implementation("io.github.resilience4j:resilience4j-kotlin:$resilience4jVersion")
 	implementation("io.github.resilience4j:resilience4j-retry:$resilience4jVersion")
 
