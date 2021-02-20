@@ -4,14 +4,12 @@ import io.github.resilience4j.retry.Retry
 import io.github.resilience4j.retry.RetryConfig
 import io.github.resilience4j.retry.RetryRegistry
 import mu.KotlinLogging
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.time.Duration
 
 @Component
 class RetryFactory(
-    @Value("\${resilience.retry.maxAttempts}") private val maxAttempts: Int,
-    @Value("\${resilience.retry.waitDuration}") private val waitDuration: Long
+    private val config: RetryConfiguration
 ) {
 
     private companion object {
@@ -20,8 +18,8 @@ class RetryFactory(
 
     fun buildRetry(name: String): Retry {
         val config = RetryConfig.custom<RetryConfig>()
-            .maxAttempts(maxAttempts)
-            .waitDuration(Duration.ofMillis(waitDuration))
+            .maxAttempts(config.maxAttempts)
+            .waitDuration(Duration.ofMillis(config.waitDuration))
             .build()
 
         val registry = RetryRegistry.of(config)
@@ -29,7 +27,7 @@ class RetryFactory(
         val retry = registry.retry(name)
         retry.eventPublisher
             .onEvent {
-                log.info { "Retry event '${it.eventType}' [name=${it.name}; attempts={${it.numberOfRetryAttempts}/$maxAttempts}]" }
+                log.info { "Retry event '${it.eventType}' [name=${it.name}; attempts={${it.numberOfRetryAttempts}/${config.maxAttempts}}]" }
             }
 
         return retry

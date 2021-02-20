@@ -10,7 +10,7 @@ class IbgeLocationStateResponseMapper {
     fun toLocationStateResponse(ibgeLocationStateResponse: IbgeLocationStateResponse) =
         LocationStateResponse(
             id = ibgeLocationStateResponse.id,
-            sigla = ibgeLocationStateResponse.sigla,
-            nome = ibgeLocationStateResponse.nome
+            acronym = ibgeLocationStateResponse.sigla,
+            name = ibgeLocationStateResponse.nome
         )
 }

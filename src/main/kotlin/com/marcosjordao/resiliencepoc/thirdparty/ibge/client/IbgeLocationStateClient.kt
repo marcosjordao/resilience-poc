@@ -1,6 +1,6 @@
 package com.marcosjordao.resiliencepoc.thirdparty.ibge.client
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.marcosjordao.resiliencepoc.common.objectmapper.DefaultObjectMapper
 import com.marcosjordao.resiliencepoc.common.resilience.RetryFactory
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.response.IbgeLocationStateResponse
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.config.IbgeLocationHttpClientConfiguration
@@ -11,23 +11,24 @@ import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.awaitBody
 
 @Component
-class IbgeLocationClient(
+class IbgeLocationStateClient(
     config: IbgeLocationHttpClientConfiguration,
     retryFactory: RetryFactory
 ) {
+
     companion object {
-        private val log = KotlinLogging.logger { IbgeLocationClient::class.java }
-        const val STATES_URI = "/estados"
+        private val log = KotlinLogging.logger { IbgeLocationStateClient::class.java }
+        const val API_URI = "/estados"
     }
 
-    private val webClient = config.buildClient(jacksonObjectMapper())
-    private val retry = retryFactory.buildRetry("ibgeLocationClientRetry")
+    private val webClient = config.buildClient(DefaultObjectMapper.get())
+    private val retry = retryFactory.buildRetry("stateClientRetry")
 
     suspend fun getStates(): List<IbgeLocationStateResponse> {
         log.info { "Getting states on IBGE API" }
 
         val client = webClient.get()
-            .uri(STATES_URI)
+            .uri(API_URI)
 
         return try {
 

@@ -4,10 +4,10 @@ data class IbgeLocationStateResponse(
     val id: Long,
     val sigla: String,
     val nome: String,
-    val regiao: IbgeRegiao
+    val regiao: IbgeLocationRegion
 ) {
 
-    data class IbgeRegiao(
+    data class IbgeLocationRegion(
         val id: Long,
         val sigla: String,
         val nome: String

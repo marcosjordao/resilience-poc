@@ -1,7 +1,6 @@
 package com.marcosjordao.resiliencepoc.api.location.response
 
-data class LocationStateResponse(
+data class LocationCityResponse(
     val id: Long,
-    val acronym: String,
     val name: String
 )
