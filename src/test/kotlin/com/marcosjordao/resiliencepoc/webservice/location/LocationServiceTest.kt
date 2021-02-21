@@ -1,6 +1,6 @@
 package com.marcosjordao.resiliencepoc.webservice.location
 
-import com.marcosjordao.resiliencepoc.business.location.api.request.LocationCityRequest
+import com.marcosjordao.resiliencepoc.business.location.api.fixture.LocationCityRequestFixture
 import com.marcosjordao.resiliencepoc.business.location.gateway.LocationGateway
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -41,7 +41,8 @@ internal class LocationServiceTest {
     fun `should getCities`() = runBlockingTest {
         coEvery { locationGateway.getCities(any()) } returns emptyList()
 
-        val cities = locationService.getCities(LocationCityRequest("33"))
+        val request = LocationCityRequestFixture.defaultLocationCityRequest()
+        val cities = locationService.getCities(request)
 
         assertAll(
             { assertNotNull(cities) },

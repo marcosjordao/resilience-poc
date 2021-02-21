@@ -1,8 +1,8 @@
 package com.marcosjordao.resiliencepoc.webservice.location
 
-import com.marcosjordao.resiliencepoc.business.location.api.request.LocationCityRequest
-import com.marcosjordao.resiliencepoc.business.location.api.response.LocationCityResponse
-import com.marcosjordao.resiliencepoc.business.location.api.response.LocationStateResponse
+import com.marcosjordao.resiliencepoc.business.location.api.fixture.LocationCityRequestFixture
+import com.marcosjordao.resiliencepoc.business.location.api.fixture.LocationCityResponseFixture
+import com.marcosjordao.resiliencepoc.business.location.api.fixture.LocationStateResponseFixture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.Assertions.*
@@ -39,7 +39,7 @@ internal class LocationRouterIT {
 
     @Test
     fun `should getStates`() = runBlockingTest {
-        `when`(locationService.getStates()).thenReturn(listOf(defaultLocationStateResponse()))
+        `when`(locationService.getStates()).thenReturn(listOf(LocationStateResponseFixture.defaultLocationStateResponse()))
 
         val responseBody = webTestClient.get()
             .uri("/api/v1/location/states")
@@ -59,10 +59,10 @@ internal class LocationRouterIT {
 
     @Test
     fun `should getCities`() = runBlockingTest {
-        val request = LocationCityRequest(stateId = "33")
+        val request = LocationCityRequestFixture.defaultLocationCityRequest()
 
         `when`(locationService.getCities(request))
-            .thenReturn(listOf(defaultLocationCityResponse()))
+            .thenReturn(listOf(LocationCityResponseFixture.defaultLocationCityResponse()))
 
         val responseBody = webTestClient.get()
             .uri("/api/v1/location/states/33/cities")
@@ -80,16 +80,4 @@ internal class LocationRouterIT {
 
     }
 
-    private fun defaultLocationStateResponse() =
-        LocationStateResponse(
-            id = 1,
-            acronym = "AA",
-            name = "name"
-        )
-
-    private fun defaultLocationCityResponse() =
-        LocationCityResponse(
-            id = 1,
-            name = "name"
-        )
 }

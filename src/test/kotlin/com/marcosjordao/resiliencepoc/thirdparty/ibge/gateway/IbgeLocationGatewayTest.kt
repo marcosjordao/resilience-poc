@@ -1,14 +1,14 @@
 package com.marcosjordao.resiliencepoc.thirdparty.ibge.gateway
 
-import com.marcosjordao.resiliencepoc.business.location.api.request.LocationCityRequest
-import com.marcosjordao.resiliencepoc.business.location.api.response.LocationCityResponse
-import com.marcosjordao.resiliencepoc.business.location.api.response.LocationStateResponse
+import com.marcosjordao.resiliencepoc.business.location.api.fixture.LocationCityRequestFixture
+import com.marcosjordao.resiliencepoc.business.location.api.fixture.LocationCityResponseFixture
+import com.marcosjordao.resiliencepoc.business.location.api.fixture.LocationStateResponseFixture
+import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.fixture.IbgeLocationCityRequestFixture
+import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.fixture.IbgeLocationCityResponseFixture
+import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.fixture.IbgeLocationStateResponseFixture
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.mapper.IbgeLocationCityRequestMapper
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.mapper.IbgeLocationCityResponseMapper
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.mapper.IbgeLocationStateResponseMapper
-import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.request.IbgeLocationCityRequest
-import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.response.IbgeLocationCityResponse
-import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.response.IbgeLocationStateResponse
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.client.IbgeLocationCityClient
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.client.IbgeLocationStateClient
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.exception.IbgeLocationException
@@ -47,8 +47,8 @@ internal class IbgeLocationGatewayTest {
 
     @Test
     fun `should getStates successfully`() = runBlockingTest {
-        val ibgeStateResponse = defaultIbgeLocationStateResponse()
-        val stateResponse = defaultLocationStateResponse()
+        val ibgeStateResponse = IbgeLocationStateResponseFixture.defaultIbgeLocationStateResponse()
+        val stateResponse = LocationStateResponseFixture.defaultLocationStateResponse()
 
         coEvery { stateClient.getStates() } returns listOf(ibgeStateResponse)
         coEvery { stateResponseMapper.toLocationStateResponse(any()) } returns stateResponse
@@ -75,11 +75,11 @@ internal class IbgeLocationGatewayTest {
 
     @Test
     fun `should getCities successfully`() = runBlockingTest {
-        val ibgeCityResponse = defaultIbgeLocationCityResponse()
-        val cityResponse = defaultLocationCityResponse()
+        val ibgeCityResponse = IbgeLocationCityResponseFixture.defaultIbgeLocationCityResponse()
+        val cityResponse = LocationCityResponseFixture.defaultLocationCityResponse()
 
-        val ibgeCityRequest = IbgeLocationCityRequest("33")
-        val cityRequest = LocationCityRequest("33")
+        val ibgeCityRequest = IbgeLocationCityRequestFixture.defaultIbgeLocationCityRequest()
+        val cityRequest = LocationCityRequestFixture.defaultLocationCityRequest()
 
         coEvery { cityClient.getCities(any()) } returns listOf(ibgeCityResponse)
         coEvery { cityResponseMapper.toLocationCityResponse(any()) } returns cityResponse
@@ -96,8 +96,8 @@ internal class IbgeLocationGatewayTest {
 
     @Test
     fun `should throw a IbgeLocationException when error occurs in the cityClient`() = runBlockingTest {
-        val ibgeCityRequest = IbgeLocationCityRequest("33")
-        val cityRequest = LocationCityRequest("33")
+        val ibgeCityRequest = IbgeLocationCityRequestFixture.defaultIbgeLocationCityRequest()
+        val cityRequest = LocationCityRequestFixture.defaultLocationCityRequest()
 
         coEvery { cityRequestMapper.fromLocationCityRequest(any()) } returns ibgeCityRequest
         coEvery { cityClient.getCities(any()) } throws IbgeLocationException("exception")
@@ -109,34 +109,4 @@ internal class IbgeLocationGatewayTest {
         }
     }
 
-    private fun defaultIbgeLocationStateResponse() =
-        IbgeLocationStateResponse(
-            id = 1,
-            sigla = "ST",
-            nome = "State",
-            regiao = IbgeLocationStateResponse.IbgeLocationRegion(
-                id = 2,
-                sigla = "RE",
-                nome = "Region"
-            )
-        )
-
-    private fun defaultLocationStateResponse() =
-        LocationStateResponse(
-            id = 1,
-            acronym = "ST",
-            name = "State"
-        )
-
-    private fun defaultIbgeLocationCityResponse() =
-        IbgeLocationCityResponse(
-            id = 1,
-            nome = "City"
-        )
-
-    private fun defaultLocationCityResponse() =
-        LocationCityResponse(
-            id = 1,
-            name = "City"
-        )
 }

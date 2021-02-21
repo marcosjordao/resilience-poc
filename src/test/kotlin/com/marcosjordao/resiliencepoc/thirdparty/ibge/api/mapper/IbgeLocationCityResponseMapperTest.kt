@@ -1,6 +1,6 @@
 package com.marcosjordao.resiliencepoc.thirdparty.ibge.api.mapper
 
-import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.response.IbgeLocationCityResponse
+import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.fixture.IbgeLocationCityResponseFixture
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.Assertions.*
@@ -13,10 +13,7 @@ internal class IbgeLocationCityResponseMapperTest {
 
     @Test
     fun `should map IbgeLocationCityResponse to LocationCityResponse successfully`() = runBlockingTest {
-        val ibgeLocationCityResponse = IbgeLocationCityResponse(
-            id = 1,
-            nome = "City"
-        )
+        val ibgeLocationCityResponse = IbgeLocationCityResponseFixture.defaultIbgeLocationCityResponse()
 
         val mappedLocationCityResponse = mapper.toLocationCityResponse(ibgeLocationCityResponse)
 
