@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val springCloudVersion: String by ext
 val kotlinLoggingVersion: String by ext
 val resilience4jVersion: String by ext
+val mockkVersion: String by ext
 
 plugins {
 	id("org.springframework.boot") version "2.4.2"
@@ -37,6 +38,8 @@ dependencies {
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
+	testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
+	testImplementation("io.mockk:mockk:$mockkVersion")
 
 }
 
