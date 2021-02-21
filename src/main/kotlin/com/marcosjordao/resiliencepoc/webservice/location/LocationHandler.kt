@@ -1,6 +1,6 @@
 package com.marcosjordao.resiliencepoc.webservice.location
 
-import com.marcosjordao.resiliencepoc.api.location.request.LocationCityRequest
+import com.marcosjordao.resiliencepoc.business.location.api.request.LocationCityRequest
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component

@@ -1,6 +1,6 @@
 package com.marcosjordao.resiliencepoc.thirdparty.ibge.api.mapper
 
-import com.marcosjordao.resiliencepoc.api.location.response.LocationStateResponse
+import com.marcosjordao.resiliencepoc.business.location.api.response.LocationStateResponse
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.response.IbgeLocationStateResponse
 import org.springframework.stereotype.Component
 
