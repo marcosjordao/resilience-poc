@@ -1,9 +1,9 @@
 package com.marcosjordao.resiliencepoc.webservice.location
 
-import com.marcosjordao.resiliencepoc.api.location.request.LocationCityRequest
-import com.marcosjordao.resiliencepoc.api.location.response.LocationCityResponse
-import com.marcosjordao.resiliencepoc.api.location.response.LocationStateResponse
-import com.marcosjordao.resiliencepoc.business.ibge.gateway.LocationGateway
+import com.marcosjordao.resiliencepoc.business.location.api.request.LocationCityRequest
+import com.marcosjordao.resiliencepoc.business.location.api.response.LocationCityResponse
+import com.marcosjordao.resiliencepoc.business.location.api.response.LocationStateResponse
+import com.marcosjordao.resiliencepoc.business.location.gateway.LocationGateway
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
 

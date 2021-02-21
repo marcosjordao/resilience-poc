@@ -1,4 +1,4 @@
-package com.marcosjordao.resiliencepoc.api.location.response
+package com.marcosjordao.resiliencepoc.business.location.api.response
 
 data class LocationCityResponse(
     val id: Long,
