@@ -22,7 +22,7 @@ class IbgeLocationStateClient(
     }
 
     private val webClient = config.buildClient(DefaultObjectMapper.get())
-    private val retry = retryFactory.buildRetry("stateClientRetry")
+    private val retry = retryFactory.buildRetry("ibgeStateClient")
 
     suspend fun getStates(): List<IbgeLocationStateResponse> {
         log.info { "Getting states on IBGE API" }
