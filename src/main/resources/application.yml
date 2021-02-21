@@ -10,3 +10,9 @@ resilience:
   retry:
     maxAttempts: 3
     waitDuration: 500
+  circuit-breaker:
+    slidingWindowSize: 10
+    failureRateThreshold: 70.0
+    slowCallRateThreshold: 70.0
+    slowCallDurationThreshold: 500
+    waitDurationInOpenState: 60000

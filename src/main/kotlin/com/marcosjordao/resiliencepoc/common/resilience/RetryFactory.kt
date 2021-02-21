@@ -16,7 +16,7 @@ class RetryFactory(
         private val log = KotlinLogging.logger { RetryFactory::class.java }
     }
 
-    fun buildRetry(name: String): Retry {
+    fun buildRetry(name: String, maxAttempts: Int = config.maxAttempts, waitDuration: Long = config.waitDuration): Retry {
         val config = RetryConfig.custom<RetryConfig>()
             .maxAttempts(config.maxAttempts)
             .waitDuration(Duration.ofMillis(config.waitDuration))

@@ -33,6 +33,7 @@ dependencies {
 	implementation("io.github.resilience4j:resilience4j-core:$resilience4jVersion")
 	implementation("io.github.resilience4j:resilience4j-kotlin:$resilience4jVersion")
 	implementation("io.github.resilience4j:resilience4j-retry:$resilience4jVersion")
+	implementation("io.github.resilience4j:resilience4j-circuitbreaker:$resilience4jVersion")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
