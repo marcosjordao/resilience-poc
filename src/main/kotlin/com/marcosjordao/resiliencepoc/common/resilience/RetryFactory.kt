@@ -18,8 +18,8 @@ class RetryFactory(
 
     fun buildRetry(name: String, maxAttempts: Int = config.maxAttempts, waitDuration: Long = config.waitDuration): Retry {
         val config = RetryConfig.custom<RetryConfig>()
-            .maxAttempts(maxAttempts)
-            .waitDuration(Duration.ofMillis(waitDuration))
+            .maxAttempts(config.maxAttempts)
+            .waitDuration(Duration.ofMillis(config.waitDuration))
             .build()
 
         val registry = RetryRegistry.of(config)
