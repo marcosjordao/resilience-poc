@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConstructorBinding
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "resilience.retry")
-class RetryConfiguration(
+data class RetryConfiguration(
     val maxAttempts: Int,
     val waitDuration: Long
 )
