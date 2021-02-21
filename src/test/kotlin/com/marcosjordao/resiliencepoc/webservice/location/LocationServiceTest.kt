@@ -37,7 +37,6 @@ internal class LocationServiceTest {
         coVerify(exactly = 1) { locationGateway.getStates() }
     }
 
-
     @Test
     fun `should getCities`() = runBlockingTest {
         coEvery { locationGateway.getCities(any()) } returns emptyList()
