@@ -16,10 +16,13 @@ class RetryFactory(
         private val log = KotlinLogging.logger { RetryFactory::class.java }
     }
 
-    fun buildRetry(name: String, maxAttempts: Int = config.maxAttempts, waitDuration: Long = config.waitDuration): Retry {
+    fun buildRetry(name: String, maxAttempts: Int? = null, waitDuration: Long? = null): Retry {
+        val retryMaxAttempts = maxAttempts ?: config.maxAttempts
+        val retryWaitDuration = waitDuration ?: config.waitDuration
+
         val config = RetryConfig.custom<RetryConfig>()
-            .maxAttempts(config.maxAttempts)
-            .waitDuration(Duration.ofMillis(config.waitDuration))
+            .maxAttempts(retryMaxAttempts)
+            .waitDuration(Duration.ofMillis(retryWaitDuration))
             .build()
 
         val registry = RetryRegistry.of(config)
@@ -27,7 +30,7 @@ class RetryFactory(
         val retry = registry.retry(name)
         retry.eventPublisher
             .onEvent {
-                log.info { "Retry event '${it.eventType}' [name=${it.name}; attempts={${it.numberOfRetryAttempts}/${config.maxAttempts}}]" }
+                log.info { "Retry event '${it.eventType}' [name=${it.name}; attempts={${it.numberOfRetryAttempts}/${retryMaxAttempts}}]" }
             }
 
         return retry
