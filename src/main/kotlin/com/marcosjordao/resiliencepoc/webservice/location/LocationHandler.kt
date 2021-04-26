@@ -22,6 +22,7 @@ class LocationHandler(
             val states = service.getStates()
             ServerResponse.ok().bodyValueAndAwait(states)
         } catch (ex: Exception) {
+            log.error(ex) { "Error getting states." }
             ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).buildAndAwait()
         }
     }
@@ -35,6 +36,7 @@ class LocationHandler(
             val cities = service.getCities(cityRequest)
             ServerResponse.ok().bodyValueAndAwait(cities)
         } catch (ex: Exception) {
+            log.error(ex) { "Error getting cities." }
             ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).buildAndAwait()
         }
     }
