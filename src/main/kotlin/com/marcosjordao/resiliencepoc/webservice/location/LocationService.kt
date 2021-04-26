@@ -5,6 +5,7 @@ import com.marcosjordao.resiliencepoc.business.location.api.response.LocationCit
 import com.marcosjordao.resiliencepoc.business.location.api.response.LocationStateResponse
 import com.marcosjordao.resiliencepoc.business.location.gateway.LocationGateway
 import mu.KotlinLogging
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 
 @Service
@@ -20,6 +21,7 @@ class LocationService(
         return gateway.getStates()
     }
 
+    @Cacheable("cities")
     suspend fun getCities(request: LocationCityRequest): List<LocationCityResponse> {
         log.info { "Getting cities from state [id=${request.stateId}]" }
         return gateway.getCities(request)
