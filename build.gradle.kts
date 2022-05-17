@@ -19,7 +19,6 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
-    maven(url = "https://dl.bintray.com/konrad-kaminski/maven")
 }
 
 dependencies {
@@ -33,7 +32,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
     implementation("io.github.microutils:kotlin-logging:$kotlinLoggingVersion")
-    implementation("org.springframework.kotlin:spring-kotlin-coroutine:$springKotlinCoroutineVersion")
 
     implementation("io.github.resilience4j:resilience4j-core:$resilience4jVersion")
     implementation("io.github.resilience4j:resilience4j-kotlin:$resilience4jVersion")
