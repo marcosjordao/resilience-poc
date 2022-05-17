@@ -2,15 +2,14 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val springCloudVersion: String by ext
 val kotlinLoggingVersion: String by ext
-val springKotlinCoroutineVersion: String by ext
 val resilience4jVersion: String by ext
 val mockkVersion: String by ext
 
 plugins {
-    id("org.springframework.boot") version "2.4.2"
+    id("org.springframework.boot") version "2.6.7"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    kotlin("jvm") version "1.4.21"
-    kotlin("plugin.spring") version "1.4.21"
+    kotlin("jvm") version "1.6.21"
+    kotlin("plugin.spring") version "1.6.21"
 }
 
 group = "com.marcosjordao"
@@ -20,6 +19,8 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 repositories {
     mavenCentral()
 }
+
+extra["springCloudVersion"] = "2021.0.2"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
