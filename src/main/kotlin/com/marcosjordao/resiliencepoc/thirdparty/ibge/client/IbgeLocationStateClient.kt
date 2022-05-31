@@ -1,6 +1,6 @@
 package com.marcosjordao.resiliencepoc.thirdparty.ibge.client
 
-import com.marcosjordao.resiliencepoc.common.objectmapper.DefaultObjectMapper
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.marcosjordao.resiliencepoc.common.resilience.RetryFactory
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.response.IbgeLocationStateResponse
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.config.IbgeLocationHttpClientConfiguration
@@ -13,7 +13,8 @@ import org.springframework.web.reactive.function.client.awaitBody
 @Component
 class IbgeLocationStateClient(
     config: IbgeLocationHttpClientConfiguration,
-    retryFactory: RetryFactory
+    retryFactory: RetryFactory,
+    objectMapper: ObjectMapper
 ) {
 
     companion object {
@@ -21,7 +22,7 @@ class IbgeLocationStateClient(
         const val API_URI = "/estados"
     }
 
-    private val webClient = config.buildClient(DefaultObjectMapper.get())
+    private val webClient = config.buildClient(objectMapper)
     private val retry = retryFactory.buildRetry("ibgeStateClient")
 
     suspend fun getStates(): List<IbgeLocationStateResponse> {

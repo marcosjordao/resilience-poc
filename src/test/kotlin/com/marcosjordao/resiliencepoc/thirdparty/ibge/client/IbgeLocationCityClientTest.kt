@@ -1,5 +1,6 @@
 package com.marcosjordao.resiliencepoc.thirdparty.ibge.client
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.marcosjordao.resiliencepoc.common.resilience.CircuitBreakerFactory
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.fixture.IbgeLocationCityRequestFixture
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.fixture.IbgeLocationCityResponseFixture
@@ -30,6 +31,8 @@ internal class IbgeLocationCityClientTest {
 
     private lateinit var client: IbgeLocationCityClient
 
+    private val objectMapper = jacksonObjectMapper()
+
     @MockK
     private lateinit var config: IbgeLocationHttpClientConfiguration
 
@@ -44,7 +47,7 @@ internal class IbgeLocationCityClientTest {
         coEvery { config.buildClient(any()) } returns webClient
         coEvery { circuitBreakerFactory.buildCircuitBreaker(any()) } returns CircuitBreaker.ofDefaults("name")
 
-        client = IbgeLocationCityClient(config, circuitBreakerFactory)
+        client = IbgeLocationCityClient(config, circuitBreakerFactory, objectMapper)
     }
 
     @Test

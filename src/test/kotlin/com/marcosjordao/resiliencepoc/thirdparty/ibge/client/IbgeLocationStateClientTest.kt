@@ -1,5 +1,6 @@
 package com.marcosjordao.resiliencepoc.thirdparty.ibge.client
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.marcosjordao.resiliencepoc.common.resilience.RetryFactory
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.fixture.IbgeLocationStateResponseFixture
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.response.IbgeLocationStateResponse
@@ -29,6 +30,8 @@ internal class IbgeLocationStateClientTest {
 
     private lateinit var client: IbgeLocationStateClient
 
+    private val objectMapper = jacksonObjectMapper()
+
     @MockK
     private lateinit var config: IbgeLocationHttpClientConfiguration
 
@@ -43,7 +46,7 @@ internal class IbgeLocationStateClientTest {
         coEvery { config.buildClient(any()) } returns webClient
         coEvery { retryFactory.buildRetry(any()) } returns Retry.ofDefaults("name")
 
-        client = IbgeLocationStateClient(config, retryFactory)
+        client = IbgeLocationStateClient(config, retryFactory, objectMapper)
     }
 
     @Test

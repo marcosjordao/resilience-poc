@@ -1,6 +1,6 @@
 package com.marcosjordao.resiliencepoc.thirdparty.ibge.client
 
-import com.marcosjordao.resiliencepoc.common.objectmapper.DefaultObjectMapper
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.marcosjordao.resiliencepoc.common.resilience.CircuitBreakerFactory
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.request.IbgeLocationCityRequest
 import com.marcosjordao.resiliencepoc.thirdparty.ibge.api.response.IbgeLocationCityResponse
@@ -14,13 +14,14 @@ import org.springframework.web.reactive.function.client.awaitBody
 @Component
 class IbgeLocationCityClient(
     config: IbgeLocationHttpClientConfiguration,
-    circuitBreakerFactory: CircuitBreakerFactory
+    circuitBreakerFactory: CircuitBreakerFactory,
+    objectMapper: ObjectMapper
 ) {
     companion object {
         private val log = KotlinLogging.logger { IbgeLocationStateClient::class.java }
     }
 
-    private val webClient = config.buildClient(DefaultObjectMapper.get())
+    private val webClient = config.buildClient(objectMapper)
     private val circuitBreaker = circuitBreakerFactory.buildCircuitBreaker("ibgeCityClient")
 
     suspend fun getCities(request: IbgeLocationCityRequest): List<IbgeLocationCityResponse> {
